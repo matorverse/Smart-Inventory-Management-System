@@ -1,0 +1,3 @@
+Smart Inventory & Expiry Management System
+
+A database-oriented application designed to manage inventory efficiently by tracking products at the batch level and monitoring expiry dates. The system follows FIFO-based stock handling to reduce wastage and ensure timely utilization of goods. Automated expiry alerts and logging support better inventory control and decision-making. Implemented using Python and MySQL, the project highlights essential DBMS concepts such as normalization, relational integrity, and efficient data handling, making it suitable for real-world applications like pharmacies and warehouses.
