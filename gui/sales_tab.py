@@ -108,13 +108,16 @@ class SalesTab(ttk.Frame):
 
         self._load_products()
 
-    def _load_products(self):
+    def _load_products(self, preserve=None):
         try:
             products = get_all_products()
             self._product_map = {p['product_name']: p['product_id'] for p in products}
             self.product_combo['values'] = list(self._product_map.keys())
             if self._product_map:
-                self.product_combo.current(0)
+                if preserve and preserve in self._product_map:
+                    self.product_combo.set(preserve)
+                else:
+                    self.product_combo.current(0)
                 self._on_product_select()
         except Exception as e:
             messagebox.showerror("Error", f"Could not load products:\n{e}")
@@ -145,6 +148,10 @@ class SalesTab(ttk.Frame):
             messagebox.showerror("Sale Failed", str(e))
 
     def refresh(self):
+        # Refresh products to catch any new products added from Inventory tab
+        current_sel = self.product_combo.get() if hasattr(self, 'product_combo') else None
+        self._load_products(preserve=current_sel)
+
         # Today summary
         try:
             s = get_today_sales_summary()

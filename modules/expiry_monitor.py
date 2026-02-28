@@ -110,11 +110,11 @@ def get_expiry_summary():
         cursor = conn.cursor(dictionary=True)
         cursor.execute("""
             SELECT
-                SUM(CASE WHEN b.expiry_date >= CURDATE()
+                COALESCE(SUM(CASE WHEN b.expiry_date >= CURDATE()
                           AND b.expiry_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
-                          AND i.quantity_available > 0 THEN 1 ELSE 0 END) AS expiring_soon,
-                SUM(CASE WHEN b.expiry_date < CURDATE()
-                          AND i.quantity_available > 0 THEN 1 ELSE 0 END) AS expired_with_stock
+                          AND i.quantity_available > 0 THEN 1 ELSE 0 END), 0) AS expiring_soon,
+                COALESCE(SUM(CASE WHEN b.expiry_date < CURDATE()
+                          AND i.quantity_available > 0 THEN 1 ELSE 0 END), 0) AS expired_with_stock
             FROM batches b
             JOIN inventory i ON i.batch_id = b.batch_id
         """)

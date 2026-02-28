@@ -195,6 +195,14 @@ class SmartInventoryApp(tk.Tk):
         tab = self.notebook.index(self.notebook.select())
         if tab == 0:
             self.tab_dashboard.refresh()
+        elif tab == 1:
+            self.tab_inventory.refresh()
+        elif tab == 2:
+            self.tab_sales.refresh()
+        elif tab == 3:
+            self.tab_expiry.refresh()
+        elif tab == 4:
+            self.tab_reports.refresh()
 
     # ── Background scheduler ──────────────────────────────────
     def _start_background_scheduler(self):
